@@ -6,23 +6,7 @@
         xmlns:local="clr-namespace:ContactApp"
         xmlns:Converters="clr-namespace:ContactApp.Converters"
         mc:Ignorable="d"
-        Title="Contact App" Height="450" Width="800">
-    <Window.Resources>
-        <Converters:FullNameConverter x:Key="FullNameConverter" />
-        <!-- Custom Style for GridViewColumnHeader to Remove the Resize Grip -->
-        <Style x:Key="NoSplitterGridViewColumnHeaderStyle" TargetType="{x:Type GridViewColumnHeader}">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type GridViewColumnHeader}">
-                        <Border Background="Transparent" Padding="5,2">
-                            <ContentPresenter HorizontalAlignment="Left" />
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Setter Property="HorizontalContentAlignment" Value="Left" />
-        </Style>
-    </Window.Resources>
+        Title="Contact App" Height="450" Width="800" WindowStyle="ToolWindow">
     <Grid>
         <!-- First Column (About 25% Width) -->
         <Grid.ColumnDefinitions>
@@ -35,33 +19,34 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <ScrollViewer Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Margin="20" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-            <ListView ItemsSource="{Binding Contacts}">
-                <ListView.View>
-                    <GridView ColumnHeaderContainerStyle="{StaticResource NoSplitterGridViewColumnHeaderStyle}">
-                        <GridViewColumn Header="Contact list">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock>
-                                            <TextBlock.Text>
-                                                <MultiBinding Converter="{StaticResource FullNameConverter}">
-                                                    <Binding Path="FirstName" />
-                                                    <Binding Path="LastName" />
-                                                </MultiBinding>
-                                            </TextBlock.Text>
-                                        </TextBlock>
-                                        <Button Content="E"/>
-                                        <Button Content="X"/>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                    </GridView>
-                </ListView.View>
-            </ListView>
-        </ScrollViewer>
-        
+        <Border Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" BorderBrush="SkyBlue" BorderThickness="2" Margin="20">
+            <Grid Grid.Row="0" Grid.RowSpan="2" Grid.Column="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0" Text=" Contact list"  FontSize="16" FontWeight="Bold" Background="LightSkyBlue" />
+                <ScrollViewer Grid.Row="1" Grid.Column="0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                    <ListView ItemsSource="{Binding Contacts}">
+                        <ListView.View>
+                            <GridView>
+                                <GridView.ColumnHeaderContainerStyle>
+                                    <Style TargetType="GridViewColumnHeader">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </Style>
+                                </GridView.ColumnHeaderContainerStyle>
+                                <GridViewColumn DisplayMemberBinding="{Binding FirstName}" />
+                                <GridViewColumn DisplayMemberBinding="{Binding LastName}" />
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </ScrollViewer>
+            </Grid>
+        </Border>
+
         <Border Grid.Row="0" Grid.Column="1" BorderBrush="DarkSeaGreen" BorderThickness="2" Margin="20">
             <Grid Grid.Row="0" Grid.Column="1">
                 <Grid.ColumnDefinitions>
@@ -76,7 +61,7 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" Grid.ColumnSpan="4" Grid.Column="0" Text="Create/Edit contact information" FontSize="16" FontWeight="Bold" Background="DarkSeaGreen" />
+                <TextBlock Grid.Row="0" Grid.ColumnSpan="4" Grid.Column="0" Text=" Create/Edit contact information" FontSize="16" FontWeight="Bold" Background="DarkSeaGreen" />
 
                 <TextBox Grid.Row="1" Grid.Column="0"/>
                 <TextBox Grid.Row="1" Grid.Column="1"/>
@@ -88,7 +73,7 @@
                 <Button Content="Save" Grid.Row="3"  Grid.Column="3"/>
             </Grid>
         </Border>
-        
+
         <Border Grid.Row="1" Grid.Column="1" BorderBrush="DarkSeaGreen" BorderThickness="2" Margin="20">
             <Grid Grid.Row="1" Grid.Column="1">
                 <Grid.ColumnDefinitions>
@@ -104,7 +89,7 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <TextBlock Grid.Row="0" Grid.ColumnSpan="4" Grid.Column="0" Text="Contact details" FontSize="16" FontWeight="Bold" Background="DarkSeaGreen" />
+                <TextBlock Grid.Row="0" Grid.ColumnSpan="4" Grid.Column="0" Text=" Contact details" FontSize="16" FontWeight="Bold" Background="DarkSeaGreen" />
                 <TextBlock Text="First Name" Grid.Row="1" Grid.Column="0"/>
                 <TextBlock Text="Last Name" Grid.Row="1" Grid.Column="1"/>
                 <TextBlock Text="Date of birth" Grid.Row="1" Grid.Column="2"/>
