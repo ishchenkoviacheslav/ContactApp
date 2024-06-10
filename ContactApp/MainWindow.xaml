@@ -62,7 +62,30 @@
             </ListView>
         </ScrollViewer>
         <Grid Grid.Row="0" Grid.Column="1">
-            <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <TextBox Grid.Row="0" Grid.Column="0"/>
+            <TextBox Grid.Row="0" Grid.Column="1"/>
+            <TextBox Grid.Row="0" Grid.Column="2"/>
+
+            <TextBox Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0"/>
+
+            <Button Content="Random" Grid.Row="2"  Grid.Column="2"/>
+            <Button Content="Save" Grid.Row="2"  Grid.Column="3"/>
+        </Grid>
+
+        <Border Grid.Row="1" Grid.Column="1" BorderBrush="DarkSeaGreen" BorderThickness="2">
+            <Grid Grid.Row="1" Grid.Column="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
@@ -73,19 +96,16 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <TextBox Grid.Row="0" Grid.Column="0"/>
-                <TextBox Grid.Row="0" Grid.Column="1"/>
-                <TextBox Grid.Row="0" Grid.Column="2"/>
-                <TextBox Grid.Row="1" Grid.RowSpan="2" Grid.Column="0"/>
+                <TextBlock Grid.Row="0" Grid.ColumnSpan="4" Grid.Column="0" Text="Contact details" FontSize="16" FontWeight="Bold" Background="DarkSeaGreen" />
+                <TextBlock Text="First Name" Grid.Row="1" Grid.Column="0"/>
+                <TextBlock Text="Last Name" Grid.Row="1" Grid.Column="1"/>
+                <TextBlock Text="Date of birth" Grid.Row="1" Grid.Column="2"/>
 
+                <TextBlock Text="Word at Company" Grid.Row="2" Grid.ColumnSpan="2" Grid.Column="0"/>
             </Grid>
-        </Grid>
-
-        <!-- Second Row, Second Column (Sub-Grid 2) -->
-        <Grid Grid.Row="1" Grid.Column="1">
-            <!-- Add content for the second row, second column here -->
-        </Grid>
+        </Border>
     </Grid>
 </Window>
