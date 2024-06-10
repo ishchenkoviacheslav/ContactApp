@@ -8,10 +8,9 @@
         mc:Ignorable="d"
         Title="Contact App" Height="450" Width="800" WindowStyle="ToolWindow">
     <Grid>
-        <!-- First Column (About 25% Width) -->
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*" />
-            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="4*" />
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
@@ -46,9 +45,11 @@
                                     <ColumnDefinition Width="1*" />
                                     <ColumnDefinition Width="1*" />
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding FirstName}" Margin="4"/>
-                                <Button Grid.Row="0" Grid.Column="1" Content="E" Command="{Binding YourCommand}" CommandParameter="{Binding}" HorizontalAlignment="Right" Margin="4"/>
-                                <Button Grid.Row="0" Grid.Column="2" Content="X" Command="{Binding YourCommand}" CommandParameter="{Binding}" HorizontalAlignment="Right" Margin="4"/>
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding FirstName}" FontSize="16" FontWeight="Bold" Foreground="White" Margin="4"/>
+                                <Button Grid.Row="0" Grid.Column="1" Content=" E " Background="DarkViolet" Foreground="White" 
+                                        Command="{Binding YourCommand}" CommandParameter="{Binding}" HorizontalAlignment="Right" Margin="0, 4, 3, 4"/>
+                                <Button Grid.Row="0" Grid.Column="2" Content=" X " Background="DarkViolet" Foreground="White" 
+                                        Command="{Binding YourCommand}" CommandParameter="{Binding}" HorizontalAlignment="Right" Margin="0, 4, 3, 4"/>
                             </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>
