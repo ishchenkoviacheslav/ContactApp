@@ -4,17 +4,88 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ContactApp"
+        xmlns:Converters="clr-namespace:ContactApp.Converters"
         mc:Ignorable="d"
         Title="Contact App" Height="450" Width="800">
+    <Window.Resources>
+        <Converters:FullNameConverter x:Key="FullNameConverter" />
+        <!-- Custom Style for GridViewColumnHeader to Remove the Resize Grip -->
+        <Style x:Key="NoSplitterGridViewColumnHeaderStyle" TargetType="{x:Type GridViewColumnHeader}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type GridViewColumnHeader}">
+                        <Border Background="Transparent" Padding="5,2">
+                            <ContentPresenter HorizontalAlignment="Left" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+        </Style>
+    </Window.Resources>
     <Grid>
-        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-            <ListView ItemsSource="{Binding Items}">
+        <!-- First Column (About 25% Width) -->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="3*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <ScrollViewer Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Margin="20" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            <ListView ItemsSource="{Binding Contacts}">
                 <ListView.View>
-                    <GridView>
-                        <GridViewColumn Header="Contact list" DisplayMemberBinding="{Binding Property1}" />
+                    <GridView ColumnHeaderContainerStyle="{StaticResource NoSplitterGridViewColumnHeaderStyle}">
+                        <GridViewColumn Header="Contact list">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock>
+                                            <TextBlock.Text>
+                                                <MultiBinding Converter="{StaticResource FullNameConverter}">
+                                                    <Binding Path="FirstName" />
+                                                    <Binding Path="LastName" />
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                        <Button Content="E"/>
+                                        <Button Content="X"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
                     </GridView>
                 </ListView.View>
             </ListView>
         </ScrollViewer>
+        <Grid Grid.Row="0" Grid.Column="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <TextBox Grid.Row="0" Grid.Column="0"/>
+                <TextBox Grid.Row="0" Grid.Column="1"/>
+                <TextBox Grid.Row="0" Grid.Column="2"/>
+                <TextBox Grid.Row="1" Grid.RowSpan="2" Grid.Column="0"/>
+
+            </Grid>
+        </Grid>
+
+        <!-- Second Row, Second Column (Sub-Grid 2) -->
+        <Grid Grid.Row="1" Grid.Column="1">
+            <!-- Add content for the second row, second column here -->
+        </Grid>
     </Grid>
 </Window>
