@@ -29,18 +29,29 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Row="0" Grid.Column="0" Text=" Contact list"  FontSize="16" FontWeight="Bold" Background="LightSkyBlue" />
-                <ListView Grid.Row="1" Grid.Column="0" ItemsSource="{Binding Contacts}">
-                    <ListView.View>
-                        <GridView>
-                            <GridView.ColumnHeaderContainerStyle>
-                                <Style TargetType="GridViewColumnHeader">
-                                    <Setter Property="Visibility" Value="Collapsed" />
-                                </Style>
-                            </GridView.ColumnHeaderContainerStyle>
-                            <GridViewColumn DisplayMemberBinding="{Binding FirstName}" />
-                            <GridViewColumn DisplayMemberBinding="{Binding LastName}" />
-                        </GridView>
-                    </ListView.View>
+                <ListView Grid.Row="1" Grid.Column="0" ItemsSource="{Binding Contacts}" HorizontalContentAlignment="Stretch" View="{x:Null}">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Background="Orange">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="6*" />
+                                    <ColumnDefinition Width="1*" />
+                                    <ColumnDefinition Width="1*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding FirstName}" Margin="4"/>
+                                <Button Grid.Row="0" Grid.Column="1" Content="E" Command="{Binding YourCommand}" CommandParameter="{Binding}" HorizontalAlignment="Right" Margin="4"/>
+                                <Button Grid.Row="0" Grid.Column="2" Content="X" Command="{Binding YourCommand}" CommandParameter="{Binding}" HorizontalAlignment="Right" Margin="4"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
                 </ListView>
             </Grid>
         </Border>
