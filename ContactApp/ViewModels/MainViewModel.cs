@@ -1,10 +1,12 @@
 ﻿using ContactApp.Helpers;
 using ContactApp.Models;
+using ContactApp.Views;
 using Microsoft.Win32;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace ContactApp.ViewModels
 {
@@ -12,6 +14,24 @@ namespace ContactApp.ViewModels
     {
         private ObservableCollection<Contact> contacts;
         private Contact selectedContact;
+        private object _currentView;
+
+        public object CurrentView
+        {
+            get => _currentView;
+            set
+            {
+                _currentView = value;
+                OnPropertyChanged(nameof(CurrentView));
+            }
+        }
+
+        public ICommand SwitchViewCommand { get; }
+
+        private void SwitchView(object obj)
+        {
+            CurrentView = new EditContact();
+        }
 
         private RelayCommand removeCommand;
         public RelayCommand RemoveCommand
@@ -24,10 +44,8 @@ namespace ContactApp.ViewModels
                         Contact сontact = obj as Contact;
                         if (сontact != null)
                         {
-                            MessageBoxResult result = MessageBox.Show("Are you sure you want to delete this item?",
-                                                      "Confirm Delete",
-                                                      MessageBoxButton.YesNo,
-                                                      MessageBoxImage.Warning);
+                            var result = MessageBox.Show("Are you sure you want to delete this item?",
+                                                      "Confirm Delete", MessageBoxButton.YesNo, MessageBoxImage.Warning);
                             if (result == MessageBoxResult.Yes)
                             {
                                 Contacts.Remove(сontact);
@@ -67,6 +85,7 @@ namespace ContactApp.ViewModels
 
         public MainViewModel()
         {
+            CurrentView = new MainView();
             Contacts = new ObservableCollection<Contact>
             {
                 new Contact { Id = Guid.NewGuid(), FirstName = "John", LastName = "Doe", DateOfBirth = new DateOnly(1980, 1, 1), Company = "ABC Inc." },
