@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:ContactApp.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="250" Name="MainListView">
@@ -34,11 +35,21 @@
                                     <ColumnDefinition Width="1*" />
                                     <ColumnDefinition Width="1*" />
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding FirstName}" FontSize="16" FontWeight="Bold" Foreground="White" Margin="4"/>
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding FirstName}" FontSize="16" FontWeight="Bold" Foreground="White" Margin="4">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="MouseLeftButtonDown">
+                                            <i:InvokeCommandAction Command="{Binding DataContext.DetailsCommand, ElementName=MainListView}" CommandParameter="{Binding DataContext.SelectedContact, ElementName=MainListView}" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </TextBlock>
                                 <Button Grid.Row="0" Grid.Column="1" Content=" E " Background="DarkViolet" Foreground="White" 
-                                    Command="{Binding}" CommandParameter="{Binding SelectedContact}" HorizontalAlignment="Right" Margin="0, 4, 3, 4"/>
+                                    Command="{Binding DataContext.RemoveCommand, ElementName=MainListView}" 
+                                        CommandParameter="{Binding DataContext.SelectedContact, ElementName=MainListView}" 
+                                        HorizontalAlignment="Right" Margin="0, 4, 3, 4"/>
                                 <Button Grid.Row="0" Grid.Column="2" Content=" X " Background="DarkViolet" Foreground="White" 
-                                    Command="{Binding DataContext.RemoveCommand, ElementName=MainListView}" CommandParameter="{Binding DataContext.SelectedContact, ElementName=MainListView}" HorizontalAlignment="Right" Margin="0, 4, 3, 4"/>
+                                    Command="{Binding DataContext.RemoveCommand, ElementName=MainListView}" 
+                                        CommandParameter="{Binding DataContext.SelectedContact, ElementName=MainListView}"
+                                        HorizontalAlignment="Right" Margin="0, 4, 3, 4"/>
                             </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>

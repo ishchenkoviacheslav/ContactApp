@@ -15,7 +15,6 @@ namespace ContactApp.ViewModels
         private object _currentView;
 
         public ICommand SwitchViewCommand { get; }
-
         public object CurrentView
         {
             get => _currentView;
@@ -73,6 +72,22 @@ namespace ContactApp.ViewModels
                     selectedContact = value;
                     OnPropertyChanged(nameof(SelectedContact));
                 }
+            }
+        }
+
+        RelayCommand detailsCommand;
+        public RelayCommand DetailsCommand
+        {
+            get
+            {
+                return detailsCommand ??
+                    (detailsCommand = new RelayCommand(obj =>
+                    {
+                        if (obj is Contact)
+                        {
+                            CurrentView = new ContactDetailsView();
+                        }
+                    }));
             }
         }
 
