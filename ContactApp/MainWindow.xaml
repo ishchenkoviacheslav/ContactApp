@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:ContactApp"
         xmlns:Converters="clr-namespace:ContactApp.Converters"
         mc:Ignorable="d"
-        Title="Contact App" Name="MainWindowRoot" Height="450" Width="800" WindowStyle="ToolWindow">
+        Title="Contact App" Name="MainWindowRoot" SizeToContent="WidthAndHeight" WindowStyle="ToolWindow">
     <Grid>
         <ContentControl Content="{Binding CurrentView}"/>
     </Grid>
