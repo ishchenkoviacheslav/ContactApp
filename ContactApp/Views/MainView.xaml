@@ -43,7 +43,7 @@
                                     </i:Interaction.Triggers>
                                 </TextBlock>
                                 <Button Grid.Row="0" Grid.Column="1" Content=" E " Background="DarkViolet" Foreground="White" 
-                                    Command="{Binding DataContext.RemoveCommand, ElementName=MainListView}" 
+                                    Command="{Binding DataContext.EditCommand, ElementName=MainListView}" 
                                         CommandParameter="{Binding DataContext.SelectedContact, ElementName=MainListView}" 
                                         HorizontalAlignment="Right" Margin="0, 4, 3, 4"/>
                                 <Button Grid.Row="0" Grid.Column="2" Content=" X " Background="DarkViolet" Foreground="White" 

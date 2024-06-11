@@ -83,9 +83,25 @@ namespace ContactApp.ViewModels
                 return detailsCommand ??
                     (detailsCommand = new RelayCommand(obj =>
                     {
-                        if (obj is Contact)
+                        if (obj is Contact && SelectedContact is not null)
                         {
                             CurrentView = new ContactDetailsView();
+                        }
+                    }));
+            }
+        }
+
+        RelayCommand editCommand;
+        public RelayCommand EditCommand
+        {
+            get
+            {
+                return editCommand ??
+                    (editCommand = new RelayCommand(obj =>
+                    {
+                        if (obj is Contact && SelectedContact is not null)
+                        {
+                            CurrentView = new EditContactView();
                         }
                     }));
             }

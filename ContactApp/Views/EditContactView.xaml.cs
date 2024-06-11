@@ -5,9 +5,9 @@ namespace ContactApp.Views
     /// <summary>
     /// Interaction logic for EditContact.xaml
     /// </summary>
-    public partial class EditContact : UserControl
+    public partial class EditContactView : UserControl
     {
-        public EditContact()
+        public EditContactView()
         {
             InitializeComponent();
         }
