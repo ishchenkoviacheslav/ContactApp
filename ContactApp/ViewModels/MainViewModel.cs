@@ -1,11 +1,9 @@
 ﻿using ContactApp.Helpers;
 using ContactApp.Models;
 using ContactApp.Views;
-using Microsoft.Win32;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace ContactApp.ViewModels
@@ -16,6 +14,8 @@ namespace ContactApp.ViewModels
         private Contact selectedContact;
         private object _currentView;
 
+        public ICommand SwitchViewCommand { get; }
+
         public object CurrentView
         {
             get => _currentView;
@@ -24,13 +24,6 @@ namespace ContactApp.ViewModels
                 _currentView = value;
                 OnPropertyChanged(nameof(CurrentView));
             }
-        }
-
-        public ICommand SwitchViewCommand { get; }
-
-        private void SwitchView(object obj)
-        {
-            CurrentView = new EditContact();
         }
 
         private RelayCommand removeCommand;
