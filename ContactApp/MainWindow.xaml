@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:ContactApp"
         xmlns:Converters="clr-namespace:ContactApp.Converters"
         mc:Ignorable="d"
-        Title="Contact App" Height="450" Width="800" WindowStyle="ToolWindow">
+        Title="Contact App" Name="MainWindowRoot" Height="450" Width="800" WindowStyle="ToolWindow">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*" />
@@ -28,7 +28,7 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Row="0" Grid.Column="0" Text=" Contact list"  FontSize="16" FontWeight="Bold" Background="LightSkyBlue" />
-                <ListView Grid.Row="1" Grid.Column="0" ItemsSource="{Binding Contacts}" HorizontalContentAlignment="Stretch" View="{x:Null}">
+                <ListView Name="ContactsList" Grid.Row="1" Grid.Column="0" ItemsSource="{Binding Contacts}" SelectedItem="{Binding SelectedContact}" HorizontalContentAlignment="Stretch" View="{x:Null}">
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem">
                             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -47,9 +47,9 @@
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding FirstName}" FontSize="16" FontWeight="Bold" Foreground="White" Margin="4"/>
                                 <Button Grid.Row="0" Grid.Column="1" Content=" E " Background="DarkViolet" Foreground="White" 
-                                        Command="{Binding YourCommand}" CommandParameter="{Binding}" HorizontalAlignment="Right" Margin="0, 4, 3, 4"/>
+                                        Command="{Binding}" CommandParameter="{Binding SelectedContact}" HorizontalAlignment="Right" Margin="0, 4, 3, 4"/>
                                 <Button Grid.Row="0" Grid.Column="2" Content=" X " Background="DarkViolet" Foreground="White" 
-                                        Command="{Binding YourCommand}" CommandParameter="{Binding}" HorizontalAlignment="Right" Margin="0, 4, 3, 4"/>
+                                        Command="{Binding DataContext.RemoveCommand, ElementName=MainWindowRoot}" CommandParameter="{Binding DataContext.SelectedContact, ElementName=MainWindowRoot}" HorizontalAlignment="Right" Margin="0, 4, 3, 4"/>
                             </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>
@@ -107,7 +107,7 @@
         </Border>
 
         <Border Grid.Row="1" Grid.Column="1" BorderBrush="DarkSeaGreen" BorderThickness="2" Margin="20">
-            <Grid Grid.Row="1" Grid.Column="1">
+            <Grid Grid.Row="1" Grid.Column="1" DataContext="{Binding SelectedContact}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
@@ -123,16 +123,16 @@
 
                 <TextBlock Grid.Row="0" Grid.ColumnSpan="4" Grid.Column="0" Text=" Contact details" FontSize="16" FontWeight="Bold" Background="DarkSeaGreen" />
                 <Border Grid.Row="1" Grid.Column="0" BorderBrush="DarkSeaGreen" BorderThickness="2" Margin="10">
-                    <TextBlock Text="First Name" Grid.Row="1" Grid.Column="0" FontSize="16" />
+                    <TextBlock Text="{Binding FirstName}" Grid.Row="1" Grid.Column="0" FontSize="16" />
                 </Border>
                 <Border Grid.Row="1" Grid.Column="1" BorderBrush="DarkSeaGreen" BorderThickness="2" Margin="10">
-                    <TextBlock Text="Last Name" Grid.Row="1" Grid.Column="1" FontSize="16" />
+                    <TextBlock Text="{Binding LastName}" Grid.Row="1" Grid.Column="1" FontSize="16" />
                 </Border>
                 <Border Grid.Row="1" Grid.Column="2" BorderBrush="DarkSeaGreen" BorderThickness="2" Margin="10">
-                    <TextBlock Text="Date of birth" Grid.Row="1" Grid.Column="2" FontSize="16"/>
+                    <TextBlock Text="{Binding DateOfBirth}" Grid.Row="1" Grid.Column="2" FontSize="16"/>
                 </Border>
                 <Border Grid.Row="2" Grid.ColumnSpan="2" Grid.Column="0" BorderBrush="DarkSeaGreen" BorderThickness="2" Margin="10">
-                    <TextBlock Text="Word at Company" Grid.Row="2" Grid.ColumnSpan="2" Grid.Column="0" FontSize="16" />
+                    <TextBlock Text="{Binding Company}" Grid.Row="2" Grid.ColumnSpan="2" Grid.Column="0" FontSize="16" />
                 </Border>
             </Grid>
         </Border>
