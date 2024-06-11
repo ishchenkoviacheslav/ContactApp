@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ContactApp.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="250">
+             d:DesignHeight="450" d:DesignWidth="250" Name="MainListView">
     <Grid>
         <Border BorderBrush="LightSkyBlue" BorderThickness="2" Margin="20">
             <Grid>
@@ -38,7 +38,7 @@
                                 <Button Grid.Row="0" Grid.Column="1" Content=" E " Background="DarkViolet" Foreground="White" 
                                     Command="{Binding}" CommandParameter="{Binding SelectedContact}" HorizontalAlignment="Right" Margin="0, 4, 3, 4"/>
                                 <Button Grid.Row="0" Grid.Column="2" Content=" X " Background="DarkViolet" Foreground="White" 
-                                    Command="{Binding DataContext.RemoveCommand, ElementName=MainWindowRoot}" CommandParameter="{Binding DataContext.SelectedContact, ElementName=MainWindowRoot}" HorizontalAlignment="Right" Margin="0, 4, 3, 4"/>
+                                    Command="{Binding DataContext.RemoveCommand, ElementName=MainListView}" CommandParameter="{Binding DataContext.SelectedContact, ElementName=MainListView}" HorizontalAlignment="Right" Margin="0, 4, 3, 4"/>
                             </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>
