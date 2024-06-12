@@ -5,9 +5,9 @@ namespace ContactApp.Views
     /// <summary>
     /// Interaction logic for ListView.xaml
     /// </summary>
-    public partial class ListView : UserControl
+    public partial class ListOfContactView : UserControl
     {
-        public ListView()
+        public ListOfContactView()
         {
             InitializeComponent();
         }

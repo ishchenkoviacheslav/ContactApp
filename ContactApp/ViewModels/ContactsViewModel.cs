@@ -4,6 +4,8 @@ using ContactApp.Views;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace ContactApp.ViewModels
 {
@@ -20,6 +22,7 @@ namespace ContactApp.ViewModels
         private RelayCommand _returnCommand;
         private RelayCommand _editCommand;
         private RelayCommand _removeCommand;
+        private RelayCommand _saveCommand;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -100,7 +103,7 @@ namespace ContactApp.ViewModels
                 return _returnCommand ??
                     (_returnCommand = new RelayCommand(obj =>
                     {
-                        ListView = new ListView();
+                        ListView = new ListOfContactView();
                     }));
             }
         }
@@ -146,9 +149,33 @@ namespace ContactApp.ViewModels
             }
         }
 
+        public RelayCommand SaveCommand
+        {
+            get
+            {
+                return _saveCommand ??
+                    (_saveCommand = new RelayCommand(obj =>
+                    {
+                        var editContactView = _editContactView as EditContactView;
+                        var firstName = editContactView.FindName("FirstName") as TextBox;
+                        var lastName = editContactView.FindName("LastName") as TextBox;
+                        var birthDay = editContactView.FindName("DateOfBirth") as TextBox;
+                        var company = editContactView.FindName("Company") as TextBox;
+
+                        var binding = firstName.GetBindingExpression(TextBox.TextProperty);
+                        binding.UpdateSource();
+                        binding = lastName.GetBindingExpression(TextBox.TextProperty);
+                        binding.UpdateSource();
+                        binding = birthDay.GetBindingExpression(TextBox.TextProperty);
+                        binding.UpdateSource();
+                        binding = company.GetBindingExpression(TextBox.TextProperty);
+                        binding.UpdateSource();
+                    }));
+            }
+        }
         public ContactsViewModel()
         {
-            ListView = new ListView();
+            ListView = new ListOfContactView();
             DetailsView = new ContactDetailsView();
             EditContactView = new EditContactView();
             Contacts = new ObservableCollection<Contact>

@@ -23,16 +23,16 @@
                 <TextBlock Grid.Row="0" Grid.ColumnSpan="4" Grid.Column="0" Text=" Create/Edit contact information" FontSize="16" FontWeight="Bold" Background="DarkSeaGreen" />
 
                 <Border Grid.Row="1" Grid.Column="0" BorderBrush="DarkSeaGreen" BorderThickness="2" Margin="10">
-                    <TextBox Text="{Binding FirstName}" Grid.Row="1" Grid.Column="0"/>
+                    <TextBox Name="FirstName" Text="{Binding FirstName, UpdateSourceTrigger=Explicit}" Grid.Row="1" Grid.Column="0"/>
                 </Border>
                 <Border Grid.Row="1" Grid.Column="1" BorderBrush="DarkSeaGreen" BorderThickness="2" Margin="10">
-                    <TextBox Text="{Binding LastName}" Grid.Row="1" Grid.Column="1"/>
+                    <TextBox Name="LastName" Text="{Binding LastName, UpdateSourceTrigger=Explicit}" Grid.Row="1" Grid.Column="1"/>
                 </Border>
                 <Border Grid.Row="1" Grid.Column="2" BorderBrush="DarkSeaGreen" BorderThickness="2" Margin="10">
-                    <TextBox Text="{Binding DateOfBirth}" Grid.Row="1" Grid.Column="2"/>
+                    <TextBox Name="DateOfBirth" Text="{Binding DateOfBirth, UpdateSourceTrigger=Explicit}" Grid.Row="1" Grid.Column="2"/>
                 </Border>
                 <Border Grid.Row="2" Grid.ColumnSpan="2" Grid.Column="0" BorderBrush="DarkSeaGreen" BorderThickness="2" Margin="10">
-                    <TextBox Text="{Binding Company}" Grid.Row="2" Grid.ColumnSpan="2" Grid.Column="0"/>
+                    <TextBox Name="Company" Text="{Binding Company, UpdateSourceTrigger=Explicit}" Grid.Row="2" Grid.ColumnSpan="2" Grid.Column="0"/>
                 </Border>
                 <!--<Button Content="Random" Grid.Row="3"  Grid.Column="2" Margin="5,30,2,5" Height="30">
                     <Button.Template>
@@ -43,7 +43,7 @@
                         </ControlTemplate>
                     </Button.Template>
                 </Button>-->
-                <Button Content="To the list" Grid.Row="3" Grid.Column="2" Margin="5,30,5,5"
+                <!--<Button Content="To the list" Grid.Row="3" Grid.Column="2" Margin="5,30,5,5"
                         Command="{Binding DataContext.ReturnCommand, ElementName=EditView}" FontSize="14">
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
@@ -52,8 +52,8 @@
                             </Border>
                         </ControlTemplate>
                     </Button.Template>
-                </Button>
-                <Button Content="Save" Grid.Row="3"  Grid.Column="3" Margin="5,30,5,5" Height="30">
+                </Button>-->
+                <Button Content="Save" Command="{Binding DataContext.SaveCommand, ElementName=EditView}" Grid.Row="3"  Grid.Column="3" Margin="5,30,5,5" Height="30">
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
                             <Border CornerRadius="5" BorderBrush="Blue" BorderThickness="1">
