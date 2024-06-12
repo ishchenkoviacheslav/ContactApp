@@ -19,13 +19,13 @@ namespace ContactApp.ViewModels
         private object _detailsContactView;
         private object _editContactView;
 
-        private RelayCommand _detailsCommand;
-        private RelayCommand _returnCommand;
-        private RelayCommand _editCommand;
-        private RelayCommand _removeCommand;
-        private RelayCommand _updateCommand;
-        private RelayCommand _saveCommand;
-        private RelayCommand _openCommand;
+        private AsyncRelayCommand _detailsCommand;
+        private AsyncRelayCommand _returnCommand;
+        private AsyncRelayCommand _editCommand;
+        private AsyncRelayCommand _removeCommand;
+        private AsyncRelayCommand _updateCommand;
+        private AsyncRelayCommand _saveCommand;
+        private AsyncRelayCommand _openCommand;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -84,12 +84,12 @@ namespace ContactApp.ViewModels
             }
         }
 
-        public RelayCommand DetailsCommand
+        public AsyncRelayCommand DetailsCommand
         {
             get
             {
                 return _detailsCommand ??
-                    (_detailsCommand = new RelayCommand(obj =>
+                    (_detailsCommand = new AsyncRelayCommand(async obj =>
                     {
                         if (obj is Contact && SelectedContact is not null)
                         {
@@ -99,24 +99,24 @@ namespace ContactApp.ViewModels
             }
         }
 
-        public RelayCommand ReturnCommand
+        public AsyncRelayCommand ReturnCommand
         {
             get
             {
                 return _returnCommand ??
-                    (_returnCommand = new RelayCommand(obj =>
+                    (_returnCommand = new AsyncRelayCommand(async obj =>
                     {
                         ListView = new ListOfContactView();
                     }));
             }
         }
 
-        public RelayCommand EditCommand
+        public AsyncRelayCommand EditCommand
         {
             get
             {
                 return _editCommand ??
-                    (_editCommand = new RelayCommand(obj =>
+                    (_editCommand = new AsyncRelayCommand(async obj =>
                     {
                         if (obj is Contact && SelectedContact != null)
                         {
@@ -129,12 +129,12 @@ namespace ContactApp.ViewModels
             }
         }
 
-        public RelayCommand RemoveCommand
+        public AsyncRelayCommand RemoveCommand
         {
             get
             {
                 return _removeCommand ??
-                    (_removeCommand = new RelayCommand(obj =>
+                    (_removeCommand = new AsyncRelayCommand(async obj =>
                     {
                         Contact сontact = obj as Contact;
                         if (сontact != null)
@@ -152,12 +152,12 @@ namespace ContactApp.ViewModels
             }
         }
 
-        public RelayCommand UpdateCommand
+        public AsyncRelayCommand UpdateCommand
         {
             get
             {
                 return _updateCommand ??
-                    (_updateCommand = new RelayCommand(obj =>
+                    (_updateCommand = new AsyncRelayCommand(async obj =>
                     {
                         var editContactView = _editContactView as EditContactView;
                         var firstName = editContactView.FindName("FirstName") as TextBox;
@@ -177,12 +177,12 @@ namespace ContactApp.ViewModels
             }
         }
 
-        public RelayCommand SaveCommand
+        public AsyncRelayCommand SaveCommand
         {
             get
             {
                 return _saveCommand ??
-                  (_saveCommand = new RelayCommand(async obj =>
+                  (_saveCommand = new AsyncRelayCommand(async obj =>
                   {
                       try
                       {
@@ -200,12 +200,12 @@ namespace ContactApp.ViewModels
             }
         }
 
-        public RelayCommand OpenCommand
+        public AsyncRelayCommand OpenCommand
         {
             get
             {
                 return _openCommand ??
-                  (_openCommand = new RelayCommand(async obj =>
+                  (_openCommand = new AsyncRelayCommand(async obj =>
                   {
                       try
                       {
