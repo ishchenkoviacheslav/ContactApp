@@ -7,7 +7,6 @@
         xmlns:Converters="clr-namespace:ContactApp.Converters"
         mc:Ignorable="d"
         Title="Contact App" Width="800" Height="400" WindowStyle="ToolWindow">
-    <!--SizeToContent="WidthAndHeight"-->
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />

@@ -34,25 +34,6 @@
                 <Border Grid.Row="2" Grid.ColumnSpan="2" Grid.Column="0" BorderBrush="DarkSeaGreen" BorderThickness="2" Margin="10">
                     <TextBox Name="Company" Text="{Binding Company, UpdateSourceTrigger=Explicit}" Grid.Row="2" Grid.ColumnSpan="2" Grid.Column="0"/>
                 </Border>
-                <!--<Button Content="Random" Grid.Row="3"  Grid.Column="2" Margin="5,30,2,5" Height="30">
-                    <Button.Template>
-                        <ControlTemplate TargetType="Button">
-                            <Border CornerRadius="5" BorderBrush="Blue" BorderThickness="1">
-                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            </Border>
-                        </ControlTemplate>
-                    </Button.Template>
-                </Button>-->
-                <!--<Button Content="To the list" Grid.Row="3" Grid.Column="2" Margin="5,30,5,5"
-                        Command="{Binding DataContext.ReturnCommand, ElementName=EditView}" FontSize="14">
-                    <Button.Template>
-                        <ControlTemplate TargetType="Button">
-                            <Border CornerRadius="5" BorderBrush="Blue" BorderThickness="1">
-                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            </Border>
-                        </ControlTemplate>
-                    </Button.Template>
-                </Button>-->
                 <Button Content="Save" Command="{Binding DataContext.SaveCommand, ElementName=EditView}" Grid.Row="3"  Grid.Column="3" Margin="5,30,5,5" Height="30">
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
