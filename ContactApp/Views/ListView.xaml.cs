@@ -3,11 +3,11 @@
 namespace ContactApp.Views
 {
     /// <summary>
-    /// Interaction logic for MainView.xaml
+    /// Interaction logic for ListView.xaml
     /// </summary>
-    public partial class MainView : UserControl
+    public partial class ListView : UserControl
     {
-        public MainView()
+        public ListView()
         {
             InitializeComponent();
         }

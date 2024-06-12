@@ -7,7 +7,7 @@ using System.Windows;
 
 namespace ContactApp.ViewModels
 {
-    public class MainViewModel : INotifyPropertyChanged
+    public class ContactsViewModel : INotifyPropertyChanged
     {
         private ObservableCollection<Contact> contacts;
         private Contact selectedContact;
@@ -107,7 +107,7 @@ namespace ContactApp.ViewModels
                 return returnCommand ??
                     (returnCommand = new RelayCommand(obj =>
                     {
-                        ListView = new MainView();
+                        ListView = new ListView();
                     }));
             }
         }
@@ -120,18 +120,19 @@ namespace ContactApp.ViewModels
                 return editCommand ??
                     (editCommand = new RelayCommand(obj =>
                     {
-                        if (obj is Contact && SelectedContact is not null)
+                        if (obj is Contact && SelectedContact != null)
                         {
-                            ListView = new EditContactView();
+                            var editDialog = new EditContactWindow();
+                            editDialog.ShowDialog();
                         }
                     },
                     (obj) => Contacts.Count > 0 && SelectedContact != null));
             }
         }
 
-        public MainViewModel()
+        public ContactsViewModel()
         {
-            ListView = new MainView();
+            ListView = new ListView();
             DetailsView = new ContactDetailsView();
             Contacts = new ObservableCollection<Contact>
             {

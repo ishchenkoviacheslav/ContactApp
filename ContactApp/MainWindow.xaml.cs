@@ -11,7 +11,7 @@ namespace ContactApp
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new MainViewModel();
+            DataContext = new ContactsViewModel();
         }
     }
 }
