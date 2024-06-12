@@ -4,7 +4,7 @@ namespace ContactApp.Interfaces
 {
     public interface IFileService
     {
-        List<Contact> Open(string filename);
-        void Save(string filename, List<Contact> contactsList);
+        Task<List<Contact>> OpenAsync(string filename);
+        Task SaveAsync(string filename, List<Contact> contactsList);
     }
 }

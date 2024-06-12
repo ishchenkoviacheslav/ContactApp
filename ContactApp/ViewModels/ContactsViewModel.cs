@@ -182,13 +182,13 @@ namespace ContactApp.ViewModels
             get
             {
                 return _saveCommand ??
-                  (_saveCommand = new RelayCommand(obj =>
+                  (_saveCommand = new RelayCommand(async obj =>
                   {
                       try
                       {
                           if (_dialogService.SaveFileDialog() == true)
                           {
-                              _fileService.Save(_dialogService.FilePath, Contacts.ToList());
+                              await _fileService.SaveAsync(_dialogService.FilePath, Contacts.ToList());
                               _dialogService.ShowMessage("File saved");
                           }
                       }
@@ -205,17 +205,17 @@ namespace ContactApp.ViewModels
             get
             {
                 return _openCommand ??
-                  (_openCommand = new RelayCommand(obj =>
+                  (_openCommand = new RelayCommand(async obj =>
                   {
                       try
                       {
                           if (_dialogService.OpenFileDialog() == true)
                           {
-                              var phones = _fileService.Open(_dialogService.FilePath);
+                              var contacts = await _fileService.OpenAsync(_dialogService.FilePath);
                               Contacts.Clear();
-                              foreach (var p in phones)
+                              foreach (var c in contacts)
                               {
-                                  Contacts.Add(p);
+                                  Contacts.Add(c);
                               }
                               _dialogService.ShowMessage("File opened");
                           }

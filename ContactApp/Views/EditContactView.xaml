@@ -34,7 +34,7 @@
                 <Border Grid.Row="2" Grid.ColumnSpan="2" Grid.Column="0" BorderBrush="DarkSeaGreen" BorderThickness="2" Margin="10">
                     <TextBox Name="Company" Text="{Binding Company, UpdateSourceTrigger=Explicit}" Grid.Row="2" Grid.ColumnSpan="2" Grid.Column="0"/>
                 </Border>
-                <Button Content="Save" Command="{Binding DataContext.SaveCommand, ElementName=EditView}" Grid.Row="3"  Grid.Column="3" Margin="5,30,5,5" Height="30">
+                <Button Content="Save" Command="{Binding DataContext.UpdateCommand, ElementName=EditView}" Grid.Row="3"  Grid.Column="3" Margin="5,30,5,5" Height="30">
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
                             <Border CornerRadius="5" BorderBrush="Blue" BorderThickness="1">
