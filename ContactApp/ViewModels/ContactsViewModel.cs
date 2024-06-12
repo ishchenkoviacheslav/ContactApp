@@ -9,31 +9,119 @@ namespace ContactApp.ViewModels
 {
     public class ContactsViewModel : INotifyPropertyChanged
     {
-        private ObservableCollection<Contact> contacts;
-        private Contact selectedContact;
-        private object _listView;
-        private object _detailsView;
+        private ObservableCollection<Contact> _contacts;
+        private Contact _selectedContact;
+
+        private object _listContactView;
+        private object _detailsContactView;
+        private object _editContactView;
+
+        private RelayCommand _detailsCommand;
+        private RelayCommand _returnCommand;
+        private RelayCommand _editCommand;
+        private RelayCommand _removeCommand;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public ObservableCollection<Contact> Contacts
+        {
+            get => contacts;
+            set
+            {
+                if (contacts != value)
+                {
+                    contacts = value;
+                    //including it won't cause any issues; it's just redundant in specific case (changes to the collection itself, not to its individual elements)
+                    OnPropertyChanged(nameof(Contacts));
+                }
+            }
+        }
+        public Contact SelectedContact
+        {
+            get => selectedContact;
+            set
+            {
+                if (selectedContact != value)
+                {
+                    selectedContact = value;
+                    OnPropertyChanged(nameof(SelectedContact));
+                }
+            }
+        }
 
         public object ListView
         {
-            get => _listView;
+            get => _listContactView;
             set
             {
-                _listView = value;
+                _listContactView = value;
                 OnPropertyChanged(nameof(ListView));
+            }
+        }
+
+        public object EditContactView
+        {
+            get => _editContactView;
+            set
+            {
+                _editContactView = value;
+                OnPropertyChanged(nameof(EditContactView));
             }
         }
         public object DetailsView
         {
-            get => _detailsView;
+            get => _detailsContactView;
             set
             {
-                _detailsView = value;
+                _detailsContactView = value;
                 OnPropertyChanged(nameof(DetailsView));
             }
         }
 
-        private RelayCommand removeCommand;
+        public RelayCommand DetailsCommand
+        {
+            get
+            {
+                return detailsCommand ??
+                    (detailsCommand = new RelayCommand(obj =>
+                    {
+                        if (obj is Contact && SelectedContact is not null)
+                        {
+                            ListView = new ContactDetailsView();
+                        }
+                    }));
+            }
+        }
+
+        public RelayCommand ReturnCommand
+        {
+            get
+            {
+                return returnCommand ??
+                    (returnCommand = new RelayCommand(obj =>
+                    {
+                        ListView = new ListView();
+                    }));
+            }
+        }
+
+        public RelayCommand EditCommand
+        {
+            get
+            {
+                return editCommand ??
+                    (editCommand = new RelayCommand(obj =>
+                    {
+                        if (obj is Contact && SelectedContact != null)
+                        {
+                            var editDialog = new EditContactWindow();
+                            editDialog.ShowDialog();
+                        }
+                    },
+                    (obj) => Contacts.Count > 0 && SelectedContact != null));
+            }
+        }
+
         public RelayCommand RemoveCommand
         {
             get
@@ -56,84 +144,12 @@ namespace ContactApp.ViewModels
                     (obj) => Contacts.Count > 0 && SelectedContact != null));
             }
         }
-        public ObservableCollection<Contact> Contacts
-        {
-            get => contacts;
-            set
-            {
-                if (contacts != value)
-                {
-                    contacts = value;
-                    //including it won't cause any issues; it's just redundant in specific case (changes to the collection itself, not to its individual elements)
-                    OnPropertyChanged(nameof(Contacts));
-                }
-            }
-        }
-
-        public Contact SelectedContact
-        {
-            get => selectedContact;
-            set
-            {
-                if (selectedContact != value)
-                {
-                    selectedContact = value;
-                    OnPropertyChanged(nameof(SelectedContact));
-                }
-            }
-        }
-
-        RelayCommand detailsCommand;
-        public RelayCommand DetailsCommand
-        {
-            get
-            {
-                return detailsCommand ??
-                    (detailsCommand = new RelayCommand(obj =>
-                    {
-                        if (obj is Contact && SelectedContact is not null)
-                        {
-                            ListView = new ContactDetailsView();
-                        }
-                    }));
-            }
-        }
-
-        RelayCommand returnCommand;
-        public RelayCommand ReturnCommand
-        {
-            get
-            {
-                return returnCommand ??
-                    (returnCommand = new RelayCommand(obj =>
-                    {
-                        ListView = new ListView();
-                    }));
-            }
-        }
-
-        RelayCommand editCommand;
-        public RelayCommand EditCommand
-        {
-            get
-            {
-                return editCommand ??
-                    (editCommand = new RelayCommand(obj =>
-                    {
-                        if (obj is Contact && SelectedContact != null)
-                        {
-                            var editDialog = new EditContactWindow();
-                            editDialog.ShowDialog();
-                        }
-                    },
-                    (obj) => Contacts.Count > 0 && SelectedContact != null));
-            }
-        }
 
         public ContactsViewModel()
         {
             ListView = new ListView();
             DetailsView = new ContactDetailsView();
+            EditContactView = new EditContactView();
             Contacts = new ObservableCollection<Contact>
             {
                 new Contact { Id = Guid.NewGuid(), FirstName = "John", LastName = "Doe", DateOfBirth = new DateOnly(1980, 1, 1), Company = "ABC Inc." },
@@ -173,8 +189,6 @@ namespace ContactApp.ViewModels
             };
             SelectedContact = Contacts.FirstOrDefault();
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged(string propertyName)
         {
