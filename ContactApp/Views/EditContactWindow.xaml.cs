@@ -22,7 +22,6 @@ namespace ContactApp.Views
         public EditContactWindow()
         {
             InitializeComponent();
-            DataCon
         }
     }
 }

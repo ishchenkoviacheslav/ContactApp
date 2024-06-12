@@ -25,12 +25,12 @@ namespace ContactApp.ViewModels
 
         public ObservableCollection<Contact> Contacts
         {
-            get => contacts;
+            get => _contacts;
             set
             {
-                if (contacts != value)
+                if (_contacts != value)
                 {
-                    contacts = value;
+                    _contacts = value;
                     //including it won't cause any issues; it's just redundant in specific case (changes to the collection itself, not to its individual elements)
                     OnPropertyChanged(nameof(Contacts));
                 }
@@ -38,12 +38,12 @@ namespace ContactApp.ViewModels
         }
         public Contact SelectedContact
         {
-            get => selectedContact;
+            get => _selectedContact;
             set
             {
-                if (selectedContact != value)
+                if (_selectedContact != value)
                 {
-                    selectedContact = value;
+                    _selectedContact = value;
                     OnPropertyChanged(nameof(SelectedContact));
                 }
             }
@@ -82,8 +82,8 @@ namespace ContactApp.ViewModels
         {
             get
             {
-                return detailsCommand ??
-                    (detailsCommand = new RelayCommand(obj =>
+                return _detailsCommand ??
+                    (_detailsCommand = new RelayCommand(obj =>
                     {
                         if (obj is Contact && SelectedContact is not null)
                         {
@@ -97,8 +97,8 @@ namespace ContactApp.ViewModels
         {
             get
             {
-                return returnCommand ??
-                    (returnCommand = new RelayCommand(obj =>
+                return _returnCommand ??
+                    (_returnCommand = new RelayCommand(obj =>
                     {
                         ListView = new ListView();
                     }));
@@ -109,12 +109,13 @@ namespace ContactApp.ViewModels
         {
             get
             {
-                return editCommand ??
-                    (editCommand = new RelayCommand(obj =>
+                return _editCommand ??
+                    (_editCommand = new RelayCommand(obj =>
                     {
                         if (obj is Contact && SelectedContact != null)
                         {
                             var editDialog = new EditContactWindow();
+                            editDialog.DataContext = this;
                             editDialog.ShowDialog();
                         }
                     },
@@ -126,8 +127,8 @@ namespace ContactApp.ViewModels
         {
             get
             {
-                return removeCommand ??
-                    (removeCommand = new RelayCommand(obj =>
+                return _removeCommand ??
+                    (_removeCommand = new RelayCommand(obj =>
                     {
                         Contact сontact = obj as Contact;
                         if (сontact != null)
