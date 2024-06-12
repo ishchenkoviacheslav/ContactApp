@@ -24,14 +24,7 @@
                     <ListView.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                <Label Content="{Binding FirstName}" VerticalAlignment="Center" Margin="0,0,10,0">
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="MouseDoubleClick">
-                                            <i:InvokeCommandAction Command="{Binding DataContext.DetailsCommand, ElementName=MainListView}" 
-                                                                   CommandParameter="{Binding DataContext.SelectedContact, ElementName=MainListView}" />
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                </Label>
+                                <Label Content="{Binding FirstName}" VerticalAlignment="Center" Margin="0,0,10,0"/>
                                 <Button Content="Edit" Command="{Binding DataContext.EditCommand, ElementName=MainListView}"
                                         CommandParameter="{Binding DataContext.SelectedContact, ElementName=MainListView}" Margin="0,0,5,0"/>
                                 <Button Content="Delete" Command="{Binding DataContext.RemoveCommand, ElementName=MainListView}" 

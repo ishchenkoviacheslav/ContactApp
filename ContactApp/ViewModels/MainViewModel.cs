@@ -4,7 +4,6 @@ using ContactApp.Views;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
-using System.Windows.Input;
 
 namespace ContactApp.ViewModels
 {
@@ -12,15 +11,25 @@ namespace ContactApp.ViewModels
     {
         private ObservableCollection<Contact> contacts;
         private Contact selectedContact;
-        private object _currentView;
+        private object _listView;
+        private object _detailsView;
 
-        public object CurrentView
+        public object ListView
         {
-            get => _currentView;
+            get => _listView;
             set
             {
-                _currentView = value;
-                OnPropertyChanged(nameof(CurrentView));
+                _listView = value;
+                OnPropertyChanged(nameof(ListView));
+            }
+        }
+        public object DetailsView
+        {
+            get => _detailsView;
+            set
+            {
+                _detailsView = value;
+                OnPropertyChanged(nameof(DetailsView));
             }
         }
 
@@ -84,7 +93,7 @@ namespace ContactApp.ViewModels
                     {
                         if (obj is Contact && SelectedContact is not null)
                         {
-                            CurrentView = new ContactDetailsView();
+                            ListView = new ContactDetailsView();
                         }
                     }));
             }
@@ -98,7 +107,7 @@ namespace ContactApp.ViewModels
                 return returnCommand ??
                     (returnCommand = new RelayCommand(obj =>
                     {
-                        CurrentView = new MainView();
+                        ListView = new MainView();
                     }));
             }
         }
@@ -113,15 +122,17 @@ namespace ContactApp.ViewModels
                     {
                         if (obj is Contact && SelectedContact is not null)
                         {
-                            CurrentView = new EditContactView();
+                            ListView = new EditContactView();
                         }
-                    }));
+                    },
+                    (obj) => Contacts.Count > 0 && SelectedContact != null));
             }
         }
 
         public MainViewModel()
         {
-            CurrentView = new MainView();
+            ListView = new MainView();
+            DetailsView = new ContactDetailsView();
             Contacts = new ObservableCollection<Contact>
             {
                 new Contact { Id = Guid.NewGuid(), FirstName = "John", LastName = "Doe", DateOfBirth = new DateOnly(1980, 1, 1), Company = "ABC Inc." },

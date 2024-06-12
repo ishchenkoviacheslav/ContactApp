@@ -6,8 +6,17 @@
         xmlns:local="clr-namespace:ContactApp"
         xmlns:Converters="clr-namespace:ContactApp.Converters"
         mc:Ignorable="d"
-        Title="Contact App" SizeToContent="WidthAndHeight" WindowStyle="ToolWindow">
+        Title="Contact App" Width="800" Height="400" WindowStyle="ToolWindow">
+    <!--SizeToContent="WidthAndHeight"-->
     <Grid>
-        <ContentControl Content="{Binding CurrentView}"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <ContentControl Grid.Row="0" Grid.Column="0" Content="{Binding ListView}"/>
+        <ContentControl Grid.Row="0" Grid.Column="1" Content="{Binding DetailsView}"/>
     </Grid>
 </Window>
