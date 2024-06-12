@@ -1,4 +1,5 @@
-﻿using ContactApp.ViewModels;
+﻿using ContactApp.Implementations;
+using ContactApp.ViewModels;
 using System.Windows;
 
 namespace ContactApp
@@ -11,7 +12,7 @@ namespace ContactApp
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new ContactsViewModel();
+            DataContext = new ContactsViewModel(new DefaultDialogService(), new JsonFileService());
         }
     }
 }

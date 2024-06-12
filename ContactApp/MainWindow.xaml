@@ -15,6 +15,12 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+        <Menu Grid.ColumnSpan="2" >
+            <MenuItem Header="File">
+                <MenuItem Header="Open" Command="{Binding OpenCommand}" />
+                <MenuItem Header="Save" Command="{Binding SaveCommand}" />
+            </MenuItem>
+        </Menu>
         <ContentControl Grid.Row="0" Grid.Column="0" Content="{Binding ListView}"/>
         <ContentControl Grid.Row="0" Grid.Column="1" Content="{Binding DetailsView}"/>
     </Grid>

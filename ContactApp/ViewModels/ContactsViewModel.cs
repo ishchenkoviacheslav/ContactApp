@@ -1,4 +1,5 @@
 ﻿using ContactApp.Helpers;
+using ContactApp.Interfaces;
 using ContactApp.Models;
 using ContactApp.Views;
 using System.Collections.ObjectModel;
@@ -12,7 +13,8 @@ namespace ContactApp.ViewModels
     {
         private ObservableCollection<Contact> _contacts;
         private Contact _selectedContact;
-
+        private IFileService _fileService;
+        private IDialogService _dialogService;
         private object _listContactView;
         private object _detailsContactView;
         private object _editContactView;
@@ -21,7 +23,9 @@ namespace ContactApp.ViewModels
         private RelayCommand _returnCommand;
         private RelayCommand _editCommand;
         private RelayCommand _removeCommand;
+        private RelayCommand _updateCommand;
         private RelayCommand _saveCommand;
+        private RelayCommand _openCommand;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -148,12 +152,12 @@ namespace ContactApp.ViewModels
             }
         }
 
-        public RelayCommand SaveCommand
+        public RelayCommand UpdateCommand
         {
             get
             {
-                return _saveCommand ??
-                    (_saveCommand = new RelayCommand(obj =>
+                return _updateCommand ??
+                    (_updateCommand = new RelayCommand(obj =>
                     {
                         var editContactView = _editContactView as EditContactView;
                         var firstName = editContactView.FindName("FirstName") as TextBox;
@@ -172,8 +176,62 @@ namespace ContactApp.ViewModels
                     }));
             }
         }
-        public ContactsViewModel()
+
+        public RelayCommand SaveCommand
         {
+            get
+            {
+                return _saveCommand ??
+                  (_saveCommand = new RelayCommand(obj =>
+                  {
+                      try
+                      {
+                          if (_dialogService.SaveFileDialog() == true)
+                          {
+                              _fileService.Save(_dialogService.FilePath, Contacts.ToList());
+                              _dialogService.ShowMessage("File saved");
+                          }
+                      }
+                      catch (Exception ex)
+                      {
+                          _dialogService.ShowMessage(ex.Message);
+                      }
+                  }));
+            }
+        }
+
+        public RelayCommand OpenCommand
+        {
+            get
+            {
+                return _openCommand ??
+                  (_openCommand = new RelayCommand(obj =>
+                  {
+                      try
+                      {
+                          if (_dialogService.OpenFileDialog() == true)
+                          {
+                              var phones = _fileService.Open(_dialogService.FilePath);
+                              Contacts.Clear();
+                              foreach (var p in phones)
+                              {
+                                  Contacts.Add(p);
+                              }
+                              _dialogService.ShowMessage("File opened");
+                          }
+                      }
+                      catch (Exception ex)
+                      {
+                          _dialogService.ShowMessage(ex.Message);
+                      }
+                  }));
+            }
+        }
+        public ContactsViewModel(IDialogService dialogService, IFileService fileService)
+        {
+            _dialogService = dialogService;
+            _fileService = fileService;
+
             ListView = new ListOfContactView();
             DetailsView = new ContactDetailsView();
             EditContactView = new EditContactView();
