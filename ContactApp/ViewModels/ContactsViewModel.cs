@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace ContactApp.ViewModels
 {
@@ -18,6 +19,8 @@ namespace ContactApp.ViewModels
         private object _listContactView;
         private object _detailsContactView;
         private object _editContactView;
+        private bool _sortedFirstNameByAscending = false;
+        private bool _sortedLastNameByAscending = false;
 
         private AsyncRelayCommand _detailsCommand;
         private AsyncRelayCommand _returnCommand;
@@ -236,17 +239,16 @@ namespace ContactApp.ViewModels
                 return _sortListCommand ??
                   (_sortListCommand = new AsyncRelayCommand(async obj =>
                   {
-                      //problem - how to know which column was clicked?
-                      //var headerClicked = e.OriginalSource as TextBlock;
-                      //if (headerClicked != null)
-                      //{
-                      //    string header = headerClicked.DataContext.ToString();
-                      //    Sort(header);
-                      //}
+                      var txtBlock = (obj as MouseButtonEventArgs).OriginalSource as TextBlock;
+                      var headerClicked = txtBlock?.DataContext?.ToString();//expected name of column
+                      if (headerClicked != null)
+                      {
+                          Sort(headerClicked);
+                      }
                   }));
             }
         }
-        
+
         public ContactsViewModel(IDialogService dialogService, IFileService fileService)
         {
             _dialogService = dialogService;
@@ -302,16 +304,35 @@ namespace ContactApp.ViewModels
 
         private void Sort(string sortBy)
         {
-            var myListView = ((UserControl)DetailsView).FindName("ContactsList") as ListView;
+            var myListView = ((ListOfContactView)ListView).FindName("ContactsList") as ListView;
 
-            //myListView.ItemsSource =
+            if (sortBy.ToLower() == "first name")
+            {
+                if (_sortedFirstNameByAscending)
+                {
+                    myListView.ItemsSource = Contacts.OrderByDescending(x => x.FirstName);
+                    _sortedFirstNameByAscending = false;
+                }
+                else
+                {
+                    myListView.ItemsSource = Contacts.OrderBy(x => x.FirstName);
+                    _sortedFirstNameByAscending = true;
+                }
+            }
+            else if (sortBy.ToLower() == "last name")
+            {
+                if (_sortedLastNameByAscending)
+                {
+                    myListView.ItemsSource = Contacts.OrderByDescending(x => x.LastName);
+                    _sortedLastNameByAscending = false;
+                }
+                else
+                {
+                    myListView.ItemsSource = Contacts.OrderBy(x => x.LastName);
+                    _sortedLastNameByAscending = true;
+                }
 
-            //ICollectionView dataView = CollectionViewSource.GetDefaultView(myListView.ItemsSource);
-
-            //dataView.SortDescriptions.Clear();
-            //dataView.SortDescriptions.Add(new System.ComponentModel.SortDescription(sortBy, System.ComponentModel.ListSortDirection.Ascending));
-
-            //dataView.Refresh();
+            }
         }
     }
 }

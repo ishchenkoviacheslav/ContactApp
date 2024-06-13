@@ -18,12 +18,13 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Row="0" Grid.Column="0" Text=" Contact list"  FontSize="16" FontWeight="Bold" Background="LightSkyBlue" />
-                <ListView Name="ContactsList" Grid.Row="1" Grid.Column="0" 
+                <ListView Name="ContactsList" Grid.Row="1" Grid.Column="0"
                           ItemsSource="{Binding Contacts}" SelectedItem="{Binding SelectedContact}" 
                           HorizontalContentAlignment="Stretch">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseDoubleClick">
-                            <i:InvokeCommandAction Command="{Binding DataContext.SortListCommand, ElementName=MainListView}" CommandParameter="{Binding SelectedItem}"/>
+                            <i:InvokeCommandAction Command="{Binding DataContext.SortListCommand, ElementName=MainListView}" 
+                                                   PassEventArgsToCommand="True"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                     <ListView.View>
