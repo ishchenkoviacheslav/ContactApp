@@ -21,6 +21,11 @@
                 <ListView Name="ContactsList" Grid.Row="1" Grid.Column="0" 
                           ItemsSource="{Binding Contacts}" SelectedItem="{Binding SelectedContact}" 
                           HorizontalContentAlignment="Stretch">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseDoubleClick">
+                            <i:InvokeCommandAction Command="{Binding DataContext.SortListCommand, ElementName=MainListView}" CommandParameter="{Binding SelectedItem}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="First name" Width="100">

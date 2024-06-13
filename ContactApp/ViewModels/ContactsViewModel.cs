@@ -26,6 +26,7 @@ namespace ContactApp.ViewModels
         private AsyncRelayCommand _updateCommand;
         private AsyncRelayCommand _saveCommand;
         private AsyncRelayCommand _openCommand;
+        private AsyncRelayCommand _sortListCommand;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -227,6 +228,25 @@ namespace ContactApp.ViewModels
                   }));
             }
         }
+
+        public AsyncRelayCommand SortListCommand
+        {
+            get
+            {
+                return _sortListCommand ??
+                  (_sortListCommand = new AsyncRelayCommand(async obj =>
+                  {
+                      //problem - how to know which column was clicked?
+                      //var headerClicked = e.OriginalSource as TextBlock;
+                      //if (headerClicked != null)
+                      //{
+                      //    string header = headerClicked.DataContext.ToString();
+                      //    Sort(header);
+                      //}
+                  }));
+            }
+        }
+        
         public ContactsViewModel(IDialogService dialogService, IFileService fileService)
         {
             _dialogService = dialogService;
@@ -278,6 +298,20 @@ namespace ContactApp.ViewModels
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void Sort(string sortBy)
+        {
+            var myListView = ((UserControl)DetailsView).FindName("ContactsList") as ListView;
+
+            //myListView.ItemsSource =
+
+            //ICollectionView dataView = CollectionViewSource.GetDefaultView(myListView.ItemsSource);
+
+            //dataView.SortDescriptions.Clear();
+            //dataView.SortDescriptions.Add(new System.ComponentModel.SortDescription(sortBy, System.ComponentModel.ListSortDirection.Ascending));
+
+            //dataView.Refresh();
         }
     }
 }
