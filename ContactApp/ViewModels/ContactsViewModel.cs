@@ -88,158 +88,118 @@ namespace ContactApp.ViewModels
             }
         }
 
-        public AsyncRelayCommand DetailsCommand
-        {
-            get
+        public AsyncRelayCommand DetailsCommand =>
+            _detailsCommand ??= new AsyncRelayCommand(async obj =>
             {
-                return _detailsCommand ??= new AsyncRelayCommand(async obj =>
+                if (obj is Contact && SelectedContact is not null)
+                {
+                    ListView = new ContactDetailsView();
+                }
+            });
+
+        public AsyncRelayCommand ReturnCommand =>
+            _returnCommand ??= new AsyncRelayCommand(async obj =>
+            {
+                ListView = new ListOfContactView();
+            });
+
+        public AsyncRelayCommand EditCommand =>
+            _editCommand ??= new AsyncRelayCommand(async obj =>
+            {
+                if (obj is Contact && SelectedContact != null)
+                {
+                    var editDialog = new EditContactWindow();
+                    editDialog.DataContext = this;
+                    editDialog.ShowDialog();
+                }
+            },
+            (obj) => Contacts.Count > 0 && SelectedContact != null);
+
+        public AsyncRelayCommand RemoveCommand =>
+            _removeCommand ??= new AsyncRelayCommand(async obj =>
+            {
+                Contact сontact = obj as Contact;
+                if (сontact != null)
+                {
+                    var result = MessageBox.Show("Are you sure you want to delete this item?",
+                                                "Confirm Delete", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                    if (result == MessageBoxResult.Yes)
                     {
-                        if (obj is Contact && SelectedContact is not null)
+                        Contacts.Remove(сontact);
+                        MessageBox.Show("Item deleted successfully.", "Delete", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                }
+            },
+            (obj) => Contacts.Count > 0 && SelectedContact != null);
+
+        public AsyncRelayCommand UpdateCommand =>
+            _updateCommand ??= new AsyncRelayCommand(async obj =>
+            {
+                var editContactView = _editContactView as EditContactView;
+                var firstName = editContactView.FindName("FirstName") as TextBox;
+                var lastName = editContactView.FindName("LastName") as TextBox;
+                var birthDay = editContactView.FindName("DateOfBirth") as TextBox;
+                var company = editContactView.FindName("Company") as TextBox;
+
+                var binding = firstName.GetBindingExpression(TextBox.TextProperty);
+                binding.UpdateSource();
+                binding = lastName.GetBindingExpression(TextBox.TextProperty);
+                binding.UpdateSource();
+                binding = birthDay.GetBindingExpression(TextBox.TextProperty);
+                binding.UpdateSource();
+                binding = company.GetBindingExpression(TextBox.TextProperty);
+                binding.UpdateSource();
+            });
+
+        public AsyncRelayCommand SaveCommand =>
+            _saveCommand ??= new AsyncRelayCommand(async obj =>
+            {
+                try
+                {
+                    if (_dialogService.SaveFileDialog() == true)
+                    {
+                        await _fileService.SaveAsync(_dialogService.FilePath, Contacts.ToList());
+                        _dialogService.ShowMessage("File saved");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _dialogService.ShowMessage(ex.Message);
+                }
+            });
+
+        public AsyncRelayCommand OpenCommand =>
+            _openCommand ??= new AsyncRelayCommand(async obj =>
+            {
+                try
+                {
+                    if (_dialogService.OpenFileDialog() == true)
+                    {
+                        var contacts = await _fileService.OpenAsync(_dialogService.FilePath);
+                        Contacts.Clear();
+                        foreach (var c in contacts)
                         {
-                            ListView = new ContactDetailsView();
+                            Contacts.Add(c);
                         }
-                    });
-            }
-        }
+                        _dialogService.ShowMessage("File opened");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _dialogService.ShowMessage(ex.Message);
+                }
+            });
 
-        public AsyncRelayCommand ReturnCommand
-        {
-            get
-            {
-                return _returnCommand ??= new AsyncRelayCommand(async obj =>
+        public AsyncRelayCommand SortListCommand =>
+            _sortListCommand ??= new AsyncRelayCommand(async obj =>
+                {
+                    var txtBlock = (obj as MouseButtonEventArgs).OriginalSource as TextBlock;
+                    var headerClicked = txtBlock?.DataContext?.ToString();//expected name of column
+                    if (headerClicked != null)
                     {
-                        ListView = new ListOfContactView();
-                    });
-            }
-        }
-
-        public AsyncRelayCommand EditCommand
-        {
-            get
-            {
-                return _editCommand ??= new AsyncRelayCommand(async obj =>
-                    {
-                        if (obj is Contact && SelectedContact != null)
-                        {
-                            var editDialog = new EditContactWindow();
-                            editDialog.DataContext = this;
-                            editDialog.ShowDialog();
-                        }
-                    },
-                    (obj) => Contacts.Count > 0 && SelectedContact != null);
-            }
-        }
-
-        public AsyncRelayCommand RemoveCommand
-        {
-            get
-            {
-                return _removeCommand ??= new AsyncRelayCommand(async obj =>
-                    {
-                        Contact сontact = obj as Contact;
-                        if (сontact != null)
-                        {
-                            var result = MessageBox.Show("Are you sure you want to delete this item?",
-                                                      "Confirm Delete", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-                            if (result == MessageBoxResult.Yes)
-                            {
-                                Contacts.Remove(сontact);
-                                MessageBox.Show("Item deleted successfully.", "Delete", MessageBoxButton.OK, MessageBoxImage.Information);
-                            }
-                        }
-                    },
-                    (obj) => Contacts.Count > 0 && SelectedContact != null);
-            }
-        }
-
-        public AsyncRelayCommand UpdateCommand
-        {
-            get
-            {
-                return _updateCommand ??= new AsyncRelayCommand(async obj =>
-                    {
-                        var editContactView = _editContactView as EditContactView;
-                        var firstName = editContactView.FindName("FirstName") as TextBox;
-                        var lastName = editContactView.FindName("LastName") as TextBox;
-                        var birthDay = editContactView.FindName("DateOfBirth") as TextBox;
-                        var company = editContactView.FindName("Company") as TextBox;
-
-                        var binding = firstName.GetBindingExpression(TextBox.TextProperty);
-                        binding.UpdateSource();
-                        binding = lastName.GetBindingExpression(TextBox.TextProperty);
-                        binding.UpdateSource();
-                        binding = birthDay.GetBindingExpression(TextBox.TextProperty);
-                        binding.UpdateSource();
-                        binding = company.GetBindingExpression(TextBox.TextProperty);
-                        binding.UpdateSource();
-                    });
-            }
-        }
-
-        public AsyncRelayCommand SaveCommand
-        {
-            get
-            {
-                return _saveCommand ??= new AsyncRelayCommand(async obj =>
-                  {
-                      try
-                      {
-                          if (_dialogService.SaveFileDialog() == true)
-                          {
-                              await _fileService.SaveAsync(_dialogService.FilePath, Contacts.ToList());
-                              _dialogService.ShowMessage("File saved");
-                          }
-                      }
-                      catch (Exception ex)
-                      {
-                          _dialogService.ShowMessage(ex.Message);
-                      }
-                  });
-            }
-        }
-
-        public AsyncRelayCommand OpenCommand
-        {
-            get
-            {
-                return _openCommand ??= new AsyncRelayCommand(async obj =>
-                  {
-                      try
-                      {
-                          if (_dialogService.OpenFileDialog() == true)
-                          {
-                              var contacts = await _fileService.OpenAsync(_dialogService.FilePath);
-                              Contacts.Clear();
-                              foreach (var c in contacts)
-                              {
-                                  Contacts.Add(c);
-                              }
-                              _dialogService.ShowMessage("File opened");
-                          }
-                      }
-                      catch (Exception ex)
-                      {
-                          _dialogService.ShowMessage(ex.Message);
-                      }
-                  });
-            }
-        }
-
-        public AsyncRelayCommand SortListCommand
-        {
-            get
-            {
-                return _sortListCommand ??= new AsyncRelayCommand(async obj =>
-                  {
-                      var txtBlock = (obj as MouseButtonEventArgs).OriginalSource as TextBlock;
-                      var headerClicked = txtBlock?.DataContext?.ToString();//expected name of column
-                      if (headerClicked != null)
-                      {
-                          Sort(headerClicked);
-                      }
-                  });
-            }
-        }
+                        Sort(headerClicked);
+                    }
+                });
 
         public ContactsViewModel(IDialogService dialogService, IFileService fileService)
         {
