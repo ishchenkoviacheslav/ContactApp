@@ -92,14 +92,13 @@ namespace ContactApp.ViewModels
         {
             get
             {
-                return _detailsCommand ??
-                    (_detailsCommand = new AsyncRelayCommand(async obj =>
+                return _detailsCommand ??= new AsyncRelayCommand(async obj =>
                     {
                         if (obj is Contact && SelectedContact is not null)
                         {
                             ListView = new ContactDetailsView();
                         }
-                    }));
+                    });
             }
         }
 
@@ -107,11 +106,10 @@ namespace ContactApp.ViewModels
         {
             get
             {
-                return _returnCommand ??
-                    (_returnCommand = new AsyncRelayCommand(async obj =>
+                return _returnCommand ??= new AsyncRelayCommand(async obj =>
                     {
                         ListView = new ListOfContactView();
-                    }));
+                    });
             }
         }
 
@@ -119,8 +117,7 @@ namespace ContactApp.ViewModels
         {
             get
             {
-                return _editCommand ??
-                    (_editCommand = new AsyncRelayCommand(async obj =>
+                return _editCommand ??= new AsyncRelayCommand(async obj =>
                     {
                         if (obj is Contact && SelectedContact != null)
                         {
@@ -129,7 +126,7 @@ namespace ContactApp.ViewModels
                             editDialog.ShowDialog();
                         }
                     },
-                    (obj) => Contacts.Count > 0 && SelectedContact != null));
+                    (obj) => Contacts.Count > 0 && SelectedContact != null);
             }
         }
 
@@ -137,8 +134,7 @@ namespace ContactApp.ViewModels
         {
             get
             {
-                return _removeCommand ??
-                    (_removeCommand = new AsyncRelayCommand(async obj =>
+                return _removeCommand ??= new AsyncRelayCommand(async obj =>
                     {
                         Contact сontact = obj as Contact;
                         if (сontact != null)
@@ -152,7 +148,7 @@ namespace ContactApp.ViewModels
                             }
                         }
                     },
-                    (obj) => Contacts.Count > 0 && SelectedContact != null));
+                    (obj) => Contacts.Count > 0 && SelectedContact != null);
             }
         }
 
@@ -160,8 +156,7 @@ namespace ContactApp.ViewModels
         {
             get
             {
-                return _updateCommand ??
-                    (_updateCommand = new AsyncRelayCommand(async obj =>
+                return _updateCommand ??= new AsyncRelayCommand(async obj =>
                     {
                         var editContactView = _editContactView as EditContactView;
                         var firstName = editContactView.FindName("FirstName") as TextBox;
@@ -177,7 +172,7 @@ namespace ContactApp.ViewModels
                         binding.UpdateSource();
                         binding = company.GetBindingExpression(TextBox.TextProperty);
                         binding.UpdateSource();
-                    }));
+                    });
             }
         }
 
@@ -185,8 +180,7 @@ namespace ContactApp.ViewModels
         {
             get
             {
-                return _saveCommand ??
-                  (_saveCommand = new AsyncRelayCommand(async obj =>
+                return _saveCommand ??= new AsyncRelayCommand(async obj =>
                   {
                       try
                       {
@@ -200,7 +194,7 @@ namespace ContactApp.ViewModels
                       {
                           _dialogService.ShowMessage(ex.Message);
                       }
-                  }));
+                  });
             }
         }
 
@@ -208,8 +202,7 @@ namespace ContactApp.ViewModels
         {
             get
             {
-                return _openCommand ??
-                  (_openCommand = new AsyncRelayCommand(async obj =>
+                return _openCommand ??= new AsyncRelayCommand(async obj =>
                   {
                       try
                       {
@@ -228,7 +221,7 @@ namespace ContactApp.ViewModels
                       {
                           _dialogService.ShowMessage(ex.Message);
                       }
-                  }));
+                  });
             }
         }
 
@@ -236,8 +229,7 @@ namespace ContactApp.ViewModels
         {
             get
             {
-                return _sortListCommand ??
-                  (_sortListCommand = new AsyncRelayCommand(async obj =>
+                return _sortListCommand ??= new AsyncRelayCommand(async obj =>
                   {
                       var txtBlock = (obj as MouseButtonEventArgs).OriginalSource as TextBlock;
                       var headerClicked = txtBlock?.DataContext?.ToString();//expected name of column
@@ -245,7 +237,7 @@ namespace ContactApp.ViewModels
                       {
                           Sort(headerClicked);
                       }
-                  }));
+                  });
             }
         }
 
